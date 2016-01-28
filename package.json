@@ -1,14 +1,22 @@
 {
   "name": "gulp-qunits",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Run hybrid unit tests through QUnit in a headless PhantomJS instance, as well as directly in Node.js.",
-  "main": "index.js",
   "license": "MIT",
-  "files": [
-    "index.js"
-  ],
-  "repository": "lehni/gulp-qunits",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lehni/gulp-qunits"
+  },
+  "bugs": "https://github.com/lehni/gulp-qunits/issues",
   "author": "Jürg Lehni <juerg@scratchdisk.com> (http://scratchdisk.com)",
+  "contributors": [
+    "Jonathan Kemp <kempdogg@gmail.com> (http://jonkemp.com/)"
+  ],
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "lib/"
+  ],
   "engines": {
     "node": ">=0.10.0"
   },
