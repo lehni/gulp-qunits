@@ -1,16 +1,11 @@
-/* eslint-disable */
-/* global describe, it */
-
-'use strict';
-
 var assert = require('assert'),
-    chalk = require('chalk'),
     gutil = require('gulp-util'),
     path = require('path'),
     qunit = require('../index'),
+    colors = gutil.colors,
     out = process.stdout.write.bind(process.stdout);
 
-describe('gulp-qunit', function() {
+describe('gulp-qunits', function() {
     this.timeout(5000);
 
     it('tests should pass', function(done) {
@@ -18,7 +13,7 @@ describe('gulp-qunit', function() {
 
         process.stdout.write = function (str) {
             //out(str);
-            str = chalk.stripColor(str);
+            str = colors.stripColor(str);
 
             if (/10 passed. 0 failed./.test(str)) {
                 assert(true);
@@ -40,7 +35,7 @@ describe('gulp-qunit', function() {
 
         process.stdout.write = function (str) {
             //out(str);
-            str = chalk.stripColor(str);
+            str = colors.stripColor(str);
 
             if (/10 passed. 1 failed./.test(str)) {
                 assert(true);
@@ -62,7 +57,7 @@ describe('gulp-qunit', function() {
 
         process.stdout.write = function (str) {
             //out(str);
-            str = chalk.stripColor(str);
+            str = colors.stripColor(str);
 
             if (/10 passed. 0 failed./.test(str)) {
                 assert(true);
@@ -84,7 +79,7 @@ describe('gulp-qunit', function() {
 
         process.stdout.write = function (str) {
             //out(str);
-            str = chalk.stripColor(str);
+            str = colors.stripColor(str);
 
             if (/10 passed. 0 failed./.test(str)) {
                 assert(true);
@@ -163,7 +158,7 @@ describe('gulp-qunit', function() {
 
         process.stdout.write = function (str) {
             //out(str);
-            str = chalk.stripColor(str);
+            str = colors.stripColor(str);
 
             if (/10 passed. 0 failed./.test(str)) {
                 assert(true);
@@ -183,13 +178,13 @@ describe('gulp-qunit', function() {
     it('tests should pass and emit finished event', function(done) {
         var stream = qunit();
 
-        stream.on('gulp-qunit.finished', function() {
+        stream.on('gulp-qunits.finished', function() {
             assert(true, 'phantom finished with errors');
         });
 
         process.stdout.write = function (str) {
             //out(str);
-            str = chalk.stripColor(str);
+            str = colors.stripColor(str);
 
             if (/10 passed. 0 failed./.test(str)) {
                 assert(true);
