@@ -3,7 +3,7 @@
 var assert = require('assert'),
     gutil = require('gulp-util'),
     path = require('path'),
-    qunit = require('../index'),
+    qunits = require('../index'),
     colors = gutil.colors,
     out = process.stdout.write.bind(process.stdout);
 
@@ -11,7 +11,7 @@ describe('gulp-qunits', function() {
     this.timeout(5000);
 
     it('tests should pass', function(done) {
-        var stream = qunit();
+        var stream = qunits();
 
         process.stdout.write = function (str) {
             //out(str);
@@ -33,7 +33,7 @@ describe('gulp-qunits', function() {
     });
 
     it('tests should fail', function(done) {
-        var stream = qunit();
+        var stream = qunits();
 
         process.stdout.write = function (str) {
             //out(str);
@@ -55,7 +55,7 @@ describe('gulp-qunits', function() {
     });
 
     it('tests should not be affected by console.log in test code', function(done) {
-        var stream = qunit();
+        var stream = qunits();
 
         process.stdout.write = function (str) {
             //out(str);
@@ -77,7 +77,7 @@ describe('gulp-qunits', function() {
     });
 
     it('tests should pass with options', function(done) {
-        var stream = qunit({'phantomjs-options': ['--ssl-protocol=any']});
+        var stream = qunits({ processOptions: ['--ssl-protocol=any']});
 
         process.stdout.write = function (str) {
             //out(str);
@@ -101,7 +101,7 @@ describe('gulp-qunits', function() {
     it('tests should time out', function(done) {
         this.timeout(10000);
 
-        var stream = qunit({ 'timeout': 1 });
+        var stream = qunits({ 'timeout': 1 });
 
         process.stdout.write = function (str) {
             //out(str);
@@ -124,7 +124,7 @@ describe('gulp-qunits', function() {
     });
 
     it('tests should not run when passing --help to PhantomJS', function(done) {
-        var stream = qunit({'phantomjs-options': ['--help']});
+        var stream = qunits({ processOptions: ['--help'] });
 
         process.stdout.write = function (str) {
             //out(str);
@@ -156,7 +156,7 @@ describe('gulp-qunits', function() {
     });
 
     it('tests should pass with absolute source paths', function(done) {
-        var stream = qunit();
+        var stream = qunits();
 
         process.stdout.write = function (str) {
             //out(str);
@@ -178,7 +178,7 @@ describe('gulp-qunits', function() {
     });
 
     it('tests should pass and emit finished event', function(done) {
-        var stream = qunit();
+        var stream = qunits();
 
         stream.on('gulp-qunits.done', function(data) {
             assert(data.passed, 'phantom finished with errors');
