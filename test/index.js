@@ -1,3 +1,5 @@
+'use strict';
+
 var assert = require('assert'),
     gutil = require('gulp-util'),
     path = require('path'),
@@ -178,8 +180,8 @@ describe('gulp-qunits', function() {
     it('tests should pass and emit finished event', function(done) {
         var stream = qunit();
 
-        stream.on('gulp-qunits.finished', function() {
-            assert(true, 'phantom finished with errors');
+        stream.on('gulp-qunits.done', function(data) {
+            assert(data.passed, 'phantom finished with errors');
         });
 
         process.stdout.write = function (str) {

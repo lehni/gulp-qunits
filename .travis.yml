@@ -2,11 +2,8 @@ sudo: false
 language: node_js
 node_js:
   - 'stable'
-  - '0.12'
 before_script:
   - npm install -g gulp
-
-# whitelist
 branches:
   only:
     - master
