@@ -12,7 +12,3 @@ before_script:
 branches:
   only:
     - master
-
-notifications:
-  email:
-    - kempdogg@gmail.com

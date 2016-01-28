@@ -24,13 +24,11 @@ function reportDone(data) {
 
 function reportFail(data) {
     var lines = [
-        colors.red('Test failed') + ': ' + data.module + ': '
-                + data.name
+        colors.red('Test failed') + ': ' + data.module + ': ' + data.name
     ];
     var line = 'Failed assertion: ' + (data.message || '');
     if (data.expected !== undefined) {
-        line += ', expected: ' + data.expected + ', but was: '
-                + data.actual;
+        line += ', expected: ' + data.expected + ', but was: ' + data.actual;
     }
     lines.push(line);
     if (data.source) {
@@ -120,7 +118,7 @@ function runPhantom(file, options, callback) {
         absolutePath = path.resolve(file.path),
         isAbsolutePath = absolutePath.indexOf(file.path) >= 0,
         resolvedPath = isAbsolutePath ? 'file:///' +
-            absolutePath.replace(/\\/g, '/') : file.path;
+            absolutePath.replace(/\\/g, '/') : file.path,
         queryOptions = ['noGlobals', 'noTryCatch'],
         queryParams = [],
         args = [];
