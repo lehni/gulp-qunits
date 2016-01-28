@@ -23,7 +23,6 @@ function reportDone(data) {
 }
 
 function reportFail(data) {
-    console.log(data);
     var lines = [
         colors.red('Test failed') + ': ' + data.module + ': '
                 + data.name
@@ -78,24 +77,33 @@ function runNode(file, options, callback) {
         child.kill();
     }
 
+    function complete(err) {
+        clearTimeout(timeoutId);
+        callback(err, file);
+        kill();
+    }
+
+    function ping() {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(function() {
+            complete('Process blocked for too long.');
+        }, options.timeout * 1000);
+    }
+
+    ping();
+
     child.on('message', function(message) {
         switch (message.type) {
             case 'ping':
-                clearTimeout(timeoutId);
-                timeoutId = setTimeout(function() {
-                    complete(new Error('Process blocked for too long'));
-                }, options.timeout * 1000);
+                ping();
                 break;
             case 'fail':
                 reportFail(message.data);
-                clearTimeout(timeoutId);
+                ping();
                 break;
             case 'done':
                 reportDone(message.data);
-                clearTimeout(timeoutId);
-                var passed = !message.data.failed;
-                callback(!passed && 'QUnit assertions failed', file);
-                kill();
+                complete(message.data.failed && 'QUnit assertions failed');
                 break;
             case 'error':
                 this.emit('error', new gutil.PluginError(pluginName,
