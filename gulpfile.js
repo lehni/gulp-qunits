@@ -1,6 +1,3 @@
-/* eslint-disable */
-'use strict';
-
 var gulp = require('gulp'),
     eslint = require('gulp-eslint'),
     mocha = require('gulp-mocha'),
