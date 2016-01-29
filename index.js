@@ -1,9 +1,7 @@
 'use strict';
 
 let extend = require('extend'),
-    through = require('through2'),
-    NodeRunner = require('./lib/NodeRunner'),
-    PhantomRunner = require('./lib/PhantomRunner');
+    through = require('through2');
 
 module.exports = function(params) {
     let options = extend({
@@ -11,8 +9,8 @@ module.exports = function(params) {
     }, params);
 
     return through.obj(function(file, encoding, callback) {
-        let ctor = /\.html$/.test(file.path) ? PhantomRunner : NodeRunner,
-            runner = new ctor(options);
-        runner.run(this, file, callback);
+        let name = /\.html$/.test(file.path) ? 'PhantomRunner' : 'NodeRunner',
+            runner = require(`./lib/${name}`);
+        new runner(options).run(this, file, callback);
     });
 };
