@@ -13,6 +13,6 @@ module.exports = function(params) {
     return through.obj(function(file, encoding, callback) {
         let ctor = /\.html$/.test(file.path) ? PhantomRunner : NodeRunner,
             runner = new ctor(options);
-        runner.run(this, file, (err) => callback(err, file));
+        runner.run(this, file, callback);
     });
 };
