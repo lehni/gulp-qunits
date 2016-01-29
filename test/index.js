@@ -4,14 +4,16 @@ var assert = require('assert'),
     gutil = require('gulp-util'),
     path = require('path'),
     qunits = require('../index'),
-    colors = gutil.colors,
-    out = process.stdout.write.bind(process.stdout);
+    colors = gutil.colors;
+
+var out = process.stdout.write.bind(process.stdout);
 
 describe('gulp-qunits', function() {
     this.timeout(5000);
 
     it('tests should pass', function(done) {
-        var stream = qunits();
+        var stream = qunits(),
+            write = process.stdout.write;
 
         process.stdout.write = function (str) {
             //out(str);
@@ -19,7 +21,7 @@ describe('gulp-qunits', function() {
 
             if (/10 passed. 0 failed./.test(str)) {
                 assert(true);
-                process.stdout.write = out;
+                process.stdout.write = write;
                 done();
             }
         };
@@ -33,7 +35,8 @@ describe('gulp-qunits', function() {
     });
 
     it('tests should fail', function(done) {
-        var stream = qunits();
+        var stream = qunits(),
+            write = process.stdout.write;
 
         process.stdout.write = function (str) {
             //out(str);
@@ -41,7 +44,7 @@ describe('gulp-qunits', function() {
 
             if (/10 passed. 1 failed./.test(str)) {
                 assert(true);
-                process.stdout.write = out;
+                process.stdout.write = write;
                 done();
             }
         };
@@ -54,8 +57,9 @@ describe('gulp-qunits', function() {
         stream.end();
     });
 
-    it('tests should not be affected by console.log in test code', function(done) {
-        var stream = qunits();
+    it('tests should not be affected by console.log()', function(done) {
+        var stream = qunits(),
+            write = process.stdout.write;
 
         process.stdout.write = function (str) {
             //out(str);
@@ -63,7 +67,7 @@ describe('gulp-qunits', function() {
 
             if (/10 passed. 0 failed./.test(str)) {
                 assert(true);
-                process.stdout.write = out;
+                process.stdout.write = write;
                 done();
             }
         };
@@ -77,7 +81,8 @@ describe('gulp-qunits', function() {
     });
 
     it('tests should pass with options', function(done) {
-        var stream = qunits({ processOptions: ['--ssl-protocol=any']});
+        var stream = qunits({ processOptions: ['--ssl-protocol=any']}),
+            write = process.stdout.write;
 
         process.stdout.write = function (str) {
             //out(str);
@@ -85,7 +90,7 @@ describe('gulp-qunits', function() {
 
             if (/10 passed. 0 failed./.test(str)) {
                 assert(true);
-                process.stdout.write = out;
+                process.stdout.write = write;
                 done();
             }
         };
@@ -99,21 +104,15 @@ describe('gulp-qunits', function() {
     });
 
     it('tests should time out', function(done) {
-        this.timeout(10000);
+        this.timeout(5000);
 
         var stream = qunits({ 'timeout': 1 });
-
-        process.stdout.write = function (str) {
-            //out(str);
-
-            if (/The specified timeout of 1 seconds has expired. Aborting.../.test(str)) {
+        stream.on('error', function (err) {
+            if (/timeout/.test(err.message)) {
                 assert(true);
-                process.stdout.write = out;
                 done();
             }
-        };
-
-        stream.on('error', function () {});
+        });
 
         stream.write(new gutil.File({
             path: './test/fixtures/async.html',
@@ -124,14 +123,16 @@ describe('gulp-qunits', function() {
     });
 
     it('tests should not run when passing --help to PhantomJS', function(done) {
-        var stream = qunits({ processOptions: ['--help'] });
+        var stream = qunits({ processOptions: ['--help'] }),
+            write = process.stdout.write;
 
         process.stdout.write = function (str) {
             //out(str);
 
             if (/10 passed. 0 failed./.test(str)) {
-                assert(false, 'No tests should run when passing --help to PhantomJS');
-                process.stdout.write = out;
+                assert(false,
+                    'No tests should run when passing --help to PhantomJS');
+                process.stdout.write = write;
                 done();
                 return;
             }
@@ -141,7 +142,7 @@ describe('gulp-qunits', function() {
                 var line = lines[i];
                 if (/.*--help.*Shows this message and quits/.test(line)) {
                     assert(true);
-                    process.stdout.write = out;
+                    process.stdout.write = write;
                     done();
                 }
             }
@@ -156,7 +157,8 @@ describe('gulp-qunits', function() {
     });
 
     it('tests should pass with absolute source paths', function(done) {
-        var stream = qunits();
+        var stream = qunits(),
+            write = process.stdout.write;
 
         process.stdout.write = function (str) {
             //out(str);
@@ -164,7 +166,7 @@ describe('gulp-qunits', function() {
 
             if (/10 passed. 0 failed./.test(str)) {
                 assert(true);
-                process.stdout.write = out;
+                process.stdout.write = write;
                 done();
             }
         };
@@ -178,7 +180,8 @@ describe('gulp-qunits', function() {
     });
 
     it('tests should pass and emit finished event', function(done) {
-        var stream = qunits();
+        var stream = qunits(),
+            write = process.stdout.write;
 
         stream.on('gulp-qunits.done', function(data) {
             assert(data.passed, 'phantom finished with errors');
@@ -190,7 +193,7 @@ describe('gulp-qunits', function() {
 
             if (/10 passed. 0 failed./.test(str)) {
                 assert(true);
-                process.stdout.write = out;
+                process.stdout.write = write;
                 done();
             }
         };
