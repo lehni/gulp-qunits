@@ -10,15 +10,14 @@
     <div id="qunit-fixture"></div>
 
     <script>
-        test('async', function() {
-            //expect(1);
+       // Test options.checkGlobal by "accidentally" leaking into global scope.
+        function doSomething() {
+            leakyGlobal = "I'm a leaky global value";
+            return true;
+        }
 
-            stop();
-
-            setTimeout(function() {
-                ok(true, 'This test should not complete before phantomjs times out.');
-                start();
-            }, 6000);
+        test('doSomething()', function() {
+            ok(doSomething() === true, 'Do something should return true');
         });
     </script>
 </body>

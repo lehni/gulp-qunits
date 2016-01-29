@@ -205,4 +205,26 @@ describe('gulp-qunits', function() {
 
         stream.end();
     });
+
+    it('options.checkGlobals should detect leaked globals', function(done) {
+        var stream = qunits({ checkGlobals: true }),
+            write = process.stdout.write;
+        process.stdout.write = function (str) {
+            str = colors.stripColor(str);
+            out(str);
+
+            if (/Introduced global variable/.test(str)) {
+                assert(true);
+                done();
+                process.stdout.write = write;
+            }
+        };
+
+        stream.write(new gutil.File({
+            path: './test/fixtures/check-globals.html',
+            contents: new Buffer('')
+        }));
+
+        stream.end();
+    });
 });
