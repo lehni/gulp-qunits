@@ -215,8 +215,8 @@ describe('gulp-qunits', function() {
 
             if (/Introduced global variable/.test(str)) {
                 assert(true);
-                done();
                 process.stdout.write = write;
+                done();
             }
         };
 
