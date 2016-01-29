@@ -2,8 +2,10 @@ sudo: false
 language: node_js
 node_js:
   - 'stable'
+  - '4'
 before_script:
   - npm install -g gulp
+  - npm install
 branches:
   only:
     - master

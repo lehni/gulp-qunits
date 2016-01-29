@@ -6,13 +6,13 @@ let extend = require('extend'),
     PhantomRunner = require('./lib/PhantomRunner');
 
 module.exports = function(params) {
-    var options = extend({
+    let options = extend({
         timeout: 5
     }, params);
 
     return through.obj(function(file, encoding, callback) {
-        let ctor = /\.html$/.test(file.path) ? PhantomRunner : NodeRunner;
-        var runner = new ctor(file, options);
-        runner.run(this, callback);
+        let ctor = /\.html$/.test(file.path) ? PhantomRunner : NodeRunner,
+            runner = new ctor(file, options);
+        runner.run(this, (err) => callback(err, file));
     });
 };
