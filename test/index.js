@@ -80,8 +80,8 @@ describe('gulp-qunits', function() {
         stream.end();
     });
 
-    it('tests should pass with options', function(done) {
-        var stream = qunits({ processOptions: ['--ssl-protocol=any']}),
+    it('tests should pass with arguments', function(done) {
+        var stream = qunits({ arguments: ['--ssl-protocol=any']}),
             write = process.stdout.write;
 
         process.stdout.write = function (str) {
@@ -123,7 +123,7 @@ describe('gulp-qunits', function() {
     });
 
     it('tests should not run when passing --help to PhantomJS', function(done) {
-        var stream = qunits({ processOptions: ['--help'] }),
+        var stream = qunits({ arguments: ['--help'] }),
             write = process.stdout.write;
 
         process.stdout.write = function (str) {

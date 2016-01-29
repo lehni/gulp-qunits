@@ -18,19 +18,12 @@
     "lib/"
   ],
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4.0.0"
   },
   "scripts": {
     "test": "mocha",
     "lint": "gulp lint"
   },
-  "keywords": [
-    "gulpplugin",
-    "test",
-    "testing",
-    "qunit",
-    "hybrid"
-  ],
   "dependencies": {
     "gulp-util": "^3.0.0",
     "phantomjs-prebuilt": "^2.1.0",
@@ -42,5 +35,12 @@
     "gulp": "^3.9.0",
     "gulp-mocha": "^2.2.0",
     "mocha": "^2.4.4"
-  }
+  },
+  "keywords": [
+    "gulpplugin",
+    "test",
+    "testing",
+    "qunit",
+    "hybrid"
+  ]
 }

@@ -17,12 +17,14 @@ $ npm install --save-dev gulp-qunits
 
 ## Usage
 
+#### PhantomJS QUnit Runner
+
 ```js
 var gulp = require('gulp'),
     qunits = require('gulp-qunits');
 
 gulp.task('test', function() {
-    return gulp.src('./qunit/test-runner.html')
+    return gulp.src('test-runner.html', cwd: 'qunit' )
         .pipe(qunits());
 });
 ```
@@ -34,8 +36,37 @@ var gulp = require('gulp'),
     qunit = require('gulp-qunits');
 
 gulp.task('test', function() {
-    return gulp.src('./qunit/test-runner.html')
-        .pipe(qunits({'phantomjs-options': ['--ssl-protocol=any']}));
+    return gulp.src('test-runner.html', cwd: 'qunit' )
+        .pipe(qunits({ arguments: ['--ssl-protocol=any']}));
+});
+```
+
+#### Node.js QUnit Runner
+
+```js
+var gulp = require('gulp'),
+    qunits = require('gulp-qunits');
+
+gulp.task('test', function() {
+    return gulp.src('test-runner.js', cwd: 'qunit' )
+        .pipe(qunits());
+});
+```
+
+With additional, optionally name-spaced requires:
+
+```js
+var gulp = require('gulp'),
+    qunit = require('gulp-qunits');
+
+gulp.task('test', function() {
+    return gulp.src('test-runner.js', cwd: 'qunit' )
+        .pipe(qunits({
+            require: [
+                { path: '../dist/paper-full.js', namespace: 'paper' }
+            ],
+            timeout: 20
+        }));
 });
 ```
 
@@ -50,19 +81,25 @@ Default: `5`
 
 Pass a number or string value to override the default timeout of 5 seconds.
 
-#### options.phantomjs-options
+#### options.arguments
 
 Type: `Array`  
-Default: `None`
+Default: `undefined`
 
-These options are passed on to PhantomJS. See the [PhantomJS documentation](http://phantomjs.org/api/command-line.html) for more information.
+The arguments to be passed on to forked process, e.g. PhantomJS. See the
+[PhantomJS documentation](http://phantomjs.org/api/command-line.html) for more
+information.
 
-#### options.binPath
+#### options.checkGlobals
 
-Type: `String`
-Default: require("phantomjs").path
+Type: `Boolean`  
+Default: `false`
 
-The option is used to execute phantomjs binary path
+Causes QUnit to make a list of all properties in the global scope, before and
+after each test, and then checks for differences. If properties are added or
+removed, the test will fail, listing the difference. This helps to make sure
+your test code and code under test doesn't accidentally leak into the global
+scope. Currently this only works in the PhantomJS QUnit Runner.
 
 ## License
 
