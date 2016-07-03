@@ -1,6 +1,6 @@
 {
   "name": "gulp-qunits",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Run hybrid unit tests through QUnit in a headless PhantomJS instance, as well as directly in Node.js.",
   "license": "MIT",
   "repository": {
@@ -27,7 +27,7 @@
   "dependencies": {
     "gulp-util": "^3.0.0",
     "phantomjs-prebuilt": "^2.1.0",
-    "qunitjs": "^1.20.0",
+    "qunitjs": "^1.23.0",
     "through2": "^2.0.0"
   },
   "devDependencies": {
