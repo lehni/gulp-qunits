@@ -25,13 +25,13 @@
     "lint": "gulp lint"
   },
   "dependencies": {
+    "extend": "^3.0.0",
     "gulp-util": "^3.0.0",
     "phantomjs-prebuilt": "^2.1.0",
     "qunitjs": "^1.23.0",
     "through2": "^2.0.0"
   },
   "devDependencies": {
-    "extend": "^3.0.0",
     "gulp": "^3.9.0",
     "gulp-mocha": "^2.2.0",
     "mocha": "^2.4.4"
