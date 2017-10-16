@@ -9,7 +9,7 @@ module.exports = function(params) {
     }, params);
 
     return through.obj(function(file, encoding, callback) {
-        let name = /\.html$/.test(file.path) ? 'PhantomRunner' : 'NodeRunner',
+        let name = /\.htm[l]?$/.test(file.path) ? 'PhantomRunner' : 'NodeRunner',
             runner = require(`./lib/${name}`);
         new runner(options).run(this, file, callback);
     });
